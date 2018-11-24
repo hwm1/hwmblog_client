@@ -1,0 +1,114 @@
+<meta property="og:type" content="website" />
+
+<meta property="og:title" content="Le Website Titel" />
+<!-- content inserted dynamically -->
+<meta name="description" property="og:description" />
+<meta name="image" property="og:image" />
+<!-- <meta name="url" property="og:url" /> -->
+
+<meta name="url" property="og:url" content="https://hwmblog.herokuapp.com/post/5ababea643ee6b5428b4cd59" />
+
+
+<div class="content" ng-hide="urlError">
+  <div class="container">
+
+
+    <ul class="breadcrumb">
+      <li>
+        <i class="fa fa-home"></i>
+        <a ui-sref="app">Home</a>
+      </li>
+      <li>{{post.title}}</li>
+    </ul>
+
+    <!-- /////////////////selected blog starts here ///////////////////////////// -->
+    <div id="id" class="post" ng-init="my=post">
+      <h2>{{post.title}}</h2>
+      <div style="display:inline-block; margin:10px" ng-repeat="image in post.images">
+        <img ng-src={{image}} ng-show="true" alt="" />
+      </div>
+
+      <!-- insure text is under image(s) -->
+      <div class="row">
+        <cite>by {{post.author}} on {{post.createdOn | date}}</cite>
+        <div class="post-body">
+          <!-- <p ng-repeat="paragraph in post.body">
+            {{paragraph}}
+          </p> -->
+
+          <!-- <p>
+            {{post.body}}
+          </p> -->
+
+          <p ng-bind-html="htmlBlogText"></p>
+
+        </div>
+      </div>
+
+      <!-- /////////////////comments and create comments starts here ///////////////////////////// -->
+      <div class="comments">
+        <!-- likes captcha -->
+        <div id="likesCaptID" data-size="invisible">
+        </div>
+        <button class="fa fa-heart" style="margin-bottom:10px" ng-click="likeButtonClicked(post)">
+          {{post.likes}}
+        </button>
+
+
+        <div>
+          <a href="" ng-click="shareOverrideOGMeta()">
+            <img ng-src="images\fbshare.png" />
+
+          </a>
+
+        </div>
+
+        <div ng-show="FBError">
+
+          This browser requires you to disable tracking protection to share on Facebook.
+
+        </div>
+
+
+        <h3>Comments</h3>
+        <ul>
+          <li ng-repeat="comment in post.comments | isApproved | orderBy:'createdOn' track by $index">
+            "{{comment.body}}"
+            <cite>-
+              <b>{{comment.author}}</b>
+            </cite>
+          </li>
+        </ul>
+
+
+        <!-- form to add new comments -->
+        <form name="commentForm" ng-submit="commentForm.$valid && addComment(post, commentForm)" novalidate>
+
+          <h4 style="display:inline-block;">Add Comment</h4>
+          <!-- line break based on screen size makes go under the h4 -->
+          <br class="rwd-break" />
+          <small>(comments may require approval before being displayed)</small>
+          <textarea ng-model="comment.body" cols="30" rows="10" required></textarea>
+          <label for="">by:</label>
+          <input type="text" ng-model="comment.author" required placeholder="Name"></input>
+
+          <div id="commentsCaptID"></div>
+
+          <p style="padding:5px;"></p>
+
+          <input id="commentSubmit" type="submit" value="Submit"></input>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- forces api.js to run onApiLoad() -->
+<script>
+  window.___grecaptcha_cfg = {};
+</script>
+<!-- load captcha api and run onApiLoad() -->
+<script src="https://www.google.com/recaptcha/api.js?onload=onApiLoad&render=explicit" async defer>
+</script>

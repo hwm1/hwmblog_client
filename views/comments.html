@@ -1,0 +1,24 @@
+<div class="comments" ng-controller="CommentController as commentCtrl">
+    <button class="fa fa-heart" ng-click="post.likes = post.likes+1"> {{post.likes}}</button>
+    <h3>Comments</h3>
+    <ul>
+      <li ng-repeat="comment in post.comments">
+        "{{comment.body}}"
+        <cite>-
+          <b>{{comment.author}}</b>
+        </cite>
+      </li>
+    </ul>
+    <form name="commentForm" ng-submit="commentForm.$valid && commentCtrl.addComment(post)" novalidate>
+
+
+      <h4>Add Comment</h4>
+      <textarea ng-model="commentCtrl.comment.body" cols="30" rows="10" required></textarea>
+      <label for="">by:</label>
+      <input type="text" ng-model="commentCtrl.comment.author" required placeholder="Name" />
+
+      <input type="submit" value="Submit" ng-click="reset(commentForm)"/>
+    </form>
+  </div>
+
+  
